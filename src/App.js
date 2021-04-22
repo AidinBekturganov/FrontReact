@@ -1,23 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
+import CategoryList from './components/CategoryList';
 
 function App() {
+
+  const [category, setCategory] = useState([]) 
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/categories/', {
+      'method': 'GET',
+      headers: {
+        'Content-Type':'application/json',
+        'Authorization':'Token 72b9a8e77184b9428066b323856d67470e3f0f1e'
+      }
+    })
+    .then(resp => resp.json())
+    .then(resp => setCategory(resp))
+    .catch(error => console.log(error))
+
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h1>Django and reatctg</h1>
+        <br/>
+        <br/>
+        
+        <CategoryList category = {category}/>
     </div>
   );
 }
